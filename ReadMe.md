@@ -1,6 +1,6 @@
 
 ## Description
-crossNN is an explainable machine learning framework for cross-platform DNA methylation-based classification of cancer. 
+crossNN is an explainable machine learning framework for cross-platform DNA methylation-based classification of cancer. This fork adapts the original crossNN implementation (https://gitlab.com/euskirchen-lab/crossNN) to include support for Bismark coverage files as input format. As well as a CLI tool to run predictions using pre-trained models.
 
 ## Model training
 
@@ -29,6 +29,18 @@ We currently provide two pre-trained models:
 
 In addition to source code provided here, a sample implementation with a graphical user interface to crossNN models is available at [crossnn.charite.de](https://crossnn.charite.de).   
 Inference using crossNN is also implemented in [nanoDx](https://gitlab.com/pesk/nanoDx), an end-to-end analysis pipeline for nanopore low-pass whole genome sequencing data.
+
+### Command line interface (CLI) tool
+A CLI tool to run predictions using pre-trained models is provided in `run_crossNN.py`.
+#### Run the CLI tool
+> `python run_crossNN.py --model path_to_model.pth --input path_to_sample.bedMethyl --epic_annotation path_to_EPIC_annotation.csv --output path_to_output.txt
+#### Parameters
+> `--model`  Path to the model file, created with the training.py script
+> `--input`  Path to the sample bedMethyl file or Bismark coverage file (.cov or .cov.gz)
+> `--epic_annotation` Path to the EPIC annotation file (required if input is a .cov file)
+> `--output` Path to the output file    
+
+In addition to the output text file, a PNG file with a bar plot of the prediction probabilities will be created at the same location with the same name as the output file, but with a .png extension.
 
 ## Citation
 If you use the crossNN in your research, _please consider citing the following paper_ in your work:
