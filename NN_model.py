@@ -73,3 +73,21 @@ class NN_classifier():
         sample.loc[sample["methylation_call"] >= 60, "methylation_call"] = 1
 
         return self.predict(sample)
+
+    def predict_from_cov(self, path, epic_annotation_path):
+        '''Preprocess bismark coverage and predict'''
+        from cov_to_bedMethyl import read_bismark_coverage, add_probe_ids
+        cov = read_bismark_coverage(path)
+        cov_annotated = add_probe_ids(cov, epic_annotation_path)
+        sample = cov_annotated.rename(columns = {"Probe_ID": "probe_id", "percent_methylation": "methylation_call"})[['probe_id', 'methylation_call']]
+        # Drop duplicates, keeping first occurrence
+        sample = sample.drop_duplicates(subset=['probe_id'], keep='first')
+
+        sample.loc[sample["methylation_call"] < 60, "methylation_call"] = -1
+        sample.loc[sample["methylation_call"] >= 60, "methylation_call"] = 1
+        sample = sample[sample['probe_id'].notna()]
+
+        return self.predict(sample)
+
+
+
