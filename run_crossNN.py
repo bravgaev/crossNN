@@ -19,10 +19,9 @@ def predict(model, input_file_path, epic_annotation_path=None):
 def write_predictions(predictions, output_file_path):
     with open(output_file_path, 'w') as f:
         f.write(f"Number of features used: {predictions[2]}\n")
-        for pred in predictions[0]:
-            for class_label in predictions[1]:
-                f.write(f"{class_label}\t{pred}\n")
-        
+        for i in range(len(predictions[0])):
+            f.write(f"{predictions[1][i]}\t{predictions[0][i]:.6f}\n")
+   
 
 def plot_predictions(predictions, plot_file_path):
     import matplotlib.pyplot as plt
@@ -38,6 +37,7 @@ def plot_predictions(predictions, plot_file_path):
     plt.figure(figsize=(10, 6))
     y_pos = np.arange(len(top_labels))
     plt.barh(y_pos, top_scores, align='center', alpha=0.7)
+    plt.axvline(x=0.2, color='r', linestyle='--')
     plt.yticks(y_pos, top_labels)
     plt.xlabel('Scores')
     plt.title('Top 10 Prediction Scores by Class (number of features used: {})'.format(num_features))
