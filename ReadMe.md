@@ -33,12 +33,14 @@ Inference using crossNN is also implemented in [nanoDx](https://gitlab.com/pesk/
 ### Command line interface (CLI) tool
 A CLI tool to run predictions using pre-trained models is provided in `run_crossNN.py`.
 #### Run the CLI tool
-> `python run_crossNN.py --model path_to_model.pth --input path_to_sample.bedMethyl --epic_annotation path_to_EPIC_annotation.csv --output path_to_output.txt
+> `python run_crossNN.py --model path_to_model.pth --input path_to_sample.bedMethyl --epic_annotation path_to_EPIC_annotation.csv --output path_to_output.txt --reference hg38`
+
 #### Parameters
 > `--model`  Path to the model file, created with the training.py script
 > `--input`  Path to the sample bedMethyl file or Bismark coverage file (.cov or .cov.gz)
 > `--epic_annotation` Path to the EPIC annotation file (required if input is a .cov file)
-> `--output` Path to the output file    
+> `--output` Path to the output file
+> `--reference` Reference genome version, either "hg19" or "hg38" (default: hg38, only relevant if input is a .cov file)
 
 In addition to the output text file, a PNG file with a bar plot of the prediction probabilities will be created at the same location with the same name as the output file, but with a .png extension.
 
